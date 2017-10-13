@@ -7,7 +7,7 @@ _(SimpleHTTPServer as Foreground, Python Flask, MongoDb as main repository)_
 This assemblage implements REST images upload storage with face recognition.
 
 ![Python](http://crowdtest.org/img/test-icons/python.png) &rightarrow;
-![MongoDb](https://download.asperasoft.com/download/docs/orchestrator/2.6.1/user_win/webhelp/images/plugin_MongodbOperation.png) &rightarrow;
+![MongoDb](https://download.asperasoft.com/download/docs/orchestrator/2.6.1/user_win/webhelp/images/plugin_MongodbOperation.png)
 
 ##### IMPLEMENTS
  - Python Built-in WEB Server
