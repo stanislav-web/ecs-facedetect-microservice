@@ -1,0 +1,4 @@
+Flask==0.12.2
+flask-cors==1.8.0
+Flask-MongoAlchemy==0.7.2
+python-dotenv==0.7.1

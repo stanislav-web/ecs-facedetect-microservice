@@ -1,0 +1,10 @@
+app:
+    build: .
+    dockerfile: Dockerfile.flask
+    links:
+        - mongo
+mongo:
+    build: .
+    dockerfile: Dockerfile.mongo
+    ports:
+        - "27017:27017"
