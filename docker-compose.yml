@@ -1,8 +1,10 @@
-app:
+web:
     build: .
     dockerfile: Dockerfile.flask
     links:
         - mongo
+    ports:
+        - "88:88"
 mongo:
     build: .
     dockerfile: Dockerfile.mongo

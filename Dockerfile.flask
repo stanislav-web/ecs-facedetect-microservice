@@ -1,35 +1,25 @@
 ############################################################
 # Dockerfile to build Python WSGI Application Containers
-# Based on Ubuntu
 ############################################################
 
-# Set the base image to Ubuntu
-FROM ubuntu:16.04
+# Set the base image to Python 3
+FROM python:3
 
 MAINTAINER Stanislav WEB "stanisov@gmail.com"
 
-# Update the sources list
-RUN apt-get update
-
-# Install basic applications
-RUN apt-get install -y tar git curl nano wget dialog net-tools build-essential
-
-# Install Python and Basic Python Tools
-RUN apt-get install -y python python-dev python-distribute python-pip
-
-# Copy the application folder inside the container
-ADD ./app /app
-
-# Get pip to download and install requirements:
-RUN pip install -r ./app/requirements.txt
-RUN pip install -r ./app/requirements-dev.txt
-
-# Set the default directory where CMD will execute
-WORKDIR ./app
-# Set the default directory where CMD will execute
+# Set volume mirror
 VOLUME ./app
 
-# Set the default command to execute    
-# when creating a new container
-# i.e. using CherryPy to serve the application
-CMD python server.py
+COPY ./app /app
+
+WORKDIR /app
+
+# Install requirements
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-dev.txt
+RUN chmod +x server.py
+
+EXPOSE 88
+
+# Set the default command to execute
+CMD [ "python", "./server.py" ]
