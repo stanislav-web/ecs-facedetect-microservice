@@ -1,4 +1,4 @@
-### ECS-FACEDETECT-MICROSERVISE
+### ECS-FACEDETECT-MICROSERVICE
 _(SimpleHTTPServer as Foreground, Python Flask, MongoDb as main repository)_
 
 [![Build Status](https://travis-ci.org/stanislav-web/ecs-facedetect-microservice.svg?branch=master)](https://travis-ci.org/stanislav-web/ecs-facedetect-microservice/builds/286316998) [![Coverage Status](https://coveralls.io/repos/github/stanislav-web/ecs-facedetect-microservice/badge.svg?branch=master)](https://coveralls.io/github/stanislav-web/ecs-facedetect-microservice?branch=master) [![GitHub license](https://img.shields.io/badge/license-AGPL-blue.svg)](https://raw.githubusercontent.com/stanislav-web/ecs-facedetect-microservice/master/LICENSE)
@@ -10,6 +10,7 @@ This assemblage implements REST images upload storage with face recognition.
 
 ##### IMPLEMENTS
  - Python 3.6 Built-in WEB Server
+ - PIL (Python Image Library)
  - Flask microframework for REST API
  - Mongo DB
  
@@ -21,7 +22,7 @@ docker-compose up --build
 
 ##### RUN
 ```bash
-http://localhost:8080
+POST http://localhost:8080/:user_id/
 ```
 
 ##### CHECK MICROSERVICE STATUS

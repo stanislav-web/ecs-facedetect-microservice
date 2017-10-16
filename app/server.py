@@ -14,10 +14,11 @@ import sys
 if __name__ == "__main__":
 
     import logging
+    from http import HTTPStatus
     from logging.handlers import RotatingFileHandler
     from flask import Flask, request, jsonify
     import configparser
-    from lib import ImageUpload
+    from modules import ImageUploader, ImageUploaderError
 
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -28,6 +29,7 @@ if __name__ == "__main__":
 
     try:
         application = Flask(__name__)
+        application.config['MAX_CONTENT_LENGTH'] = int(config['upload']['maxbytes'])
 
 
         @application.route('/')
@@ -40,18 +42,18 @@ if __name__ == "__main__":
             return None
 
 
-        @application.route('/upload', methods=['POST'])
-        def upload():
+        @application.route('/upload/<int:uid>', methods=['POST'])
+        def upload(uid):
             """
             Upload and handle user image
             :return: str
             """
 
             try:
-                data = ImageUpload().process(request.files)
-                return jsonify(data)
-            except Exception as err:
-                return jsonify({'status': 500, 'message': err})
+                data = ImageUploader().process(uid, request.files)
+                return jsonify({'status': HTTPStatus.OK, 'message': data})
+            except ImageUploaderError as e:
+                return jsonify({'status': HTTPStatus.BAD_REQUEST, 'message': str(e)})
 
 
         application.run(

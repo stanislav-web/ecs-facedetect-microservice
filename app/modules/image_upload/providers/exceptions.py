@@ -10,8 +10,8 @@
 """
 
 
-class ImageUploadError(Exception):
-    """ImageUploadError class"""
+class UploadProviderError(Exception):
+    """UploadProviderError class"""
 
     def __init__(self, message):
         """
@@ -20,15 +20,17 @@ class ImageUploadError(Exception):
         :return: None
         """
 
-        super(ImageUploadError, self).__init__(message)
+        super(UploadProviderError, self).__init__(message)
 
 
-class FileSystemError(Exception):
-    """FileSystemError class"""
+class ResizeProviderError(Exception):
+    """ResizeProviderError class"""
 
     def __init__(self, message):
         """
-        FileSystemError class constructor
-        :param str message: error message
+        Error message
+        :param message: message
+        :return: None
         """
-        super(FileSystemError, self).__init__(message)
+
+        super(ResizeProviderError, self).__init__(message)
