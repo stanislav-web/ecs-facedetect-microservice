@@ -6,13 +6,12 @@ _(SimpleHTTPServer as Foreground, Python Flask, MongoDb as main repository)_
 
 This assemblage implements REST images upload storage with face recognition.
 
-![Python](http://crowdtest.org/img/test-icons/python.png) &rightarrow; ![Flask](http://python-cloud.com/img/128px/flask.png) &rightarrow; ![MongoDb](https://download.asperasoft.com/download/docs/orchestrator/2.6.1/user_win/webhelp/images/plugin_MongodbOperation.png)
-
+![Nginx](https://images.sftcdn.net/images/t_optimized,f_auto/p/6dd52663-2bbf-48e0-a7cc-cdb043b326ef/1544311950/nginx-logo.png) &rightarrow; ![Python](http://crowdtest.org/img/test-icons/python.png) &rightarrow; ![Flask](http://python-cloud.com/img/128px/flask.png) &rightarrow; ![OpenResty Lua](https://keplerproject.github.io/wsapi/wsapi.png)
 ##### IMPLEMENTS
+ - Nginx OpenResty as Background Proxy for Validate JWT
  - Python 3.6 Built-in WEB Server
  - PIL (Python Image Library)
  - Flask microframework for REST API
- - Mongo DB
  
 ##### INSTALL
 
@@ -22,11 +21,11 @@ docker-compose up --build
 
 ##### RUN
 ```bash
-POST http://localhost:8080/:user_id/
+POST http://localhost:88
 ```
 
 ##### CHECK MICROSERVICE STATUS
-`http://localhost:8080/status/:key` (see .env)
+`http://localhost:88/status/`
 
 ```python
 HTTP/1.1 200 OK

@@ -14,11 +14,11 @@ import sys
 if __name__ == "__main__":
 
     import logging
-    from http import HTTPStatus
-    from logging.handlers import RotatingFileHandler
-    from flask import Flask, request, jsonify
     import configparser
+    from logging.handlers import RotatingFileHandler
+    from flask import Flask, request
     from modules import ImageUploader, ImageUploaderError
+    from middleware import response
 
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -28,20 +28,42 @@ if __name__ == "__main__":
     handler.setLevel(logging.INFO)
 
     try:
-        application = Flask(__name__)
+        application = Flask(__name__, static_url_path='/static')
         application.config['MAX_CONTENT_LENGTH'] = int(config['upload']['maxbytes'])
 
-
-        @application.route('/')
-        def index():
-            """
-            API Doc route
-            :return: None
-            """
-
-            return None
-
-
+        """
+        @api {post} /upload/:uid Upload user profile photo
+        @apiName Upload Profile Photo
+        @apiGroup FaceDetect API
+        @apiDescription Upload user profile photo
+        @apiPermission authenticated user
+        
+        @apiParam {String} file User file mutipart/form-data
+        
+        @apiSuccess {Number} status HTTP 201 Created
+        @apiSuccess {Object[]} message  Success upload message
+        
+        @apiSuccessExample Success-Response
+            HTTP/1.1 201 Created
+            {
+                "status": 201,
+                "message": {
+                    "uid": 1507343002,
+                    "original": "http://localhost/images/1507343002/original.jpg",
+                    "thumbnail": "http://localhost/images/1507343002/thumbnail.jpg",
+                    "minify": "http://localhost/images/1507343002/minify.jpg"
+                }
+            }
+        
+        @apiError ImageUploaderError Request does not match real req data
+        
+        @apiErrorExample ImageUploaderError
+            HTTP/1.1 400 Bad Request
+            {
+                "status": 400,
+                "message": "Invalid request data"
+            }
+        """
         @application.route('/upload/<int:uid>', methods=['POST'])
         def upload(uid):
             """
@@ -51,10 +73,19 @@ if __name__ == "__main__":
 
             try:
                 data = ImageUploader().process(uid, request.files)
-                return jsonify({'status': HTTPStatus.OK, 'message': data})
+                return response.created(data)
             except ImageUploaderError as e:
-                return jsonify({'status': HTTPStatus.BAD_REQUEST, 'message': str(e)})
+                return response.bad_request(e)
 
+        @application.errorhandler(404)
+        def not_found(error):
+            """
+            Page not found
+            :param error: str
+            :return:
+            """
+
+            return response.not_found(error)
 
         application.run(
             host=config['server']['host'],

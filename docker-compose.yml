@@ -1,12 +1,15 @@
-web:
+nginx:
     build: .
-    dockerfile: Dockerfile.flask
+    dockerfile: Dockerfile.nginx
     links:
-        - mongo
+        - app
     ports:
         - "88:88"
-mongo:
+
+app:
     build: .
-    dockerfile: Dockerfile.mongo
+    dockerfile: Dockerfile.python
+    environment:
+      - COMPOSE_CONVERT_WINDOWS_PATHS=1
     ports:
-        - "27017:27017"
+        - "5000:5000"
