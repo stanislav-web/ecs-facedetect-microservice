@@ -5,6 +5,7 @@ nginx:
         - app
     ports:
         - "88:88"
+        - "53:53"
 
 app:
     build: .

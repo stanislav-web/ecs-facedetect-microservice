@@ -13,14 +13,15 @@ from http import HTTPStatus
 from flask import make_response, jsonify, send_from_directory
 
 
-def view(template):
+def view(directory, filename):
     """
     Render view
-    :param template: str
+    :param directory: str
+    :param filename: str
     :return: str
     """
 
-    return send_from_directory(template)
+    return send_from_directory(directory, filename)
 
 
 def created(message):

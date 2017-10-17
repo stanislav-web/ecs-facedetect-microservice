@@ -28,8 +28,18 @@ if __name__ == "__main__":
     handler.setLevel(logging.INFO)
 
     try:
-        application = Flask(__name__, static_url_path='/static')
+        application = Flask(__name__)
         application.config['MAX_CONTENT_LENGTH'] = int(config['upload']['maxbytes'])
+
+        @application.route('/')
+        def index():
+            """
+            API Doc route
+            :return: str
+            """
+
+            return response.view(config['static']['directory'], 'index.html')
+
 
         """
         @api {post} /upload/:uid Upload user profile photo
@@ -76,6 +86,7 @@ if __name__ == "__main__":
                 return response.created(data)
             except ImageUploaderError as e:
                 return response.bad_request(e)
+
 
         @application.errorhandler(404)
         def not_found(error):
