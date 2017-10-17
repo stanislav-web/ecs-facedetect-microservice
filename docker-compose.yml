@@ -3,13 +3,17 @@ nginx:
     dockerfile: Dockerfile.nginx
     links:
         - app
+    volumes:
+     - /app/images
     ports:
         - "88:88"
-        - "53:53"
 
 app:
     build: .
+    restart: always
     dockerfile: Dockerfile.python
+    volumes:
+     - /app/images
     environment:
       - COMPOSE_CONVERT_WINDOWS_PATHS=1
     ports:

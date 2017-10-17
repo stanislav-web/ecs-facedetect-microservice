@@ -8,7 +8,8 @@ This assemblage implements REST images upload storage with face recognition.
 
 ![Nginx](https://images.sftcdn.net/images/t_optimized,f_auto/p/6dd52663-2bbf-48e0-a7cc-cdb043b326ef/1544311950/nginx-logo.png) &rightarrow; ![Python](http://crowdtest.org/img/test-icons/python.png) &rightarrow; ![Flask](http://python-cloud.com/img/128px/flask.png) &rightarrow; ![OpenResty Lua](https://keplerproject.github.io/wsapi/wsapi.png)
 ##### IMPLEMENTS
- - Nginx OpenResty Server as Background Proxy for Validate JWT
+ - Nginx OpenResty Server as Background Proxy for Validate JWT 
+ - Nginx as proxy cache server
  - Python 3.6 Built-in WEB Server
  - PIL (Python Image Library)
  - Flask microframework for REST API

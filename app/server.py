@@ -40,7 +40,6 @@ if __name__ == "__main__":
 
             return response.view(config['static']['directory'], 'index.html')
 
-
         """
         @api {post} /upload/:uid Upload user profile photo
         @apiName Upload Profile Photo

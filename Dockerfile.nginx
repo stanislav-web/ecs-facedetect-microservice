@@ -2,18 +2,17 @@ FROM openresty/openresty:xenial
 
 MAINTAINER Stanislav WEB "stanisov@gmail.com"
 
-RUN apt-get update && \
-    apt-get install -y dnsmasq
-
-RUN echo "\n\n# Docker extra config \nuser=root\naddn-hosts=/etc/hosts\n" >> /etc/dnsmasq.conf
 
 RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-jwt
-
 COPY ./server/nginx.conf /nginx.conf
 COPY ./server/lib/bearer.lua /bearer.lua
 COPY ./app/static/ /usr/local/openresty/nginx/html/static/
+RUN mkdir -p /usr/local/openresty/nginx/html/images/
+COPY ./app/images/ /usr/local/openresty/nginx/html/images/
+RUN chmod a+X /usr/local/openresty/nginx/html/images/
 COPY ./server/mime.types /etc/nginx/mime.types
-RUN service dnsmasq restart
+
+VOLUME ./app/images/ /usr/local/openresty/nginx/html/static/images/
 
 ENTRYPOINT ["/usr/local/openresty/bin/openresty", "-g", "daemon off;", "-c", "/nginx.conf"]
-EXPOSE 53 88
+EXPOSE 88
