@@ -10,3 +10,4 @@
 """
 
 from .image_upload import ImageUploader, ImageUploaderError
+from .face_detect import FaceDetector, FaceDetectorError

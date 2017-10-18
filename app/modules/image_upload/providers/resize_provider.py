@@ -30,15 +30,22 @@ def resize(imgsrc, twidth, theight, savepath, name='thumbnail'):
     twidth = int(twidth)
     theight = int(theight)
     savepath = os.path.realpath(savepath)
+    extension = 'jpg'
 
     try:
         image = Image.open(imgsrc)
         image.thumbnail((twidth, theight), Image.ANTIALIAS)
 
         FileSystem.makedir(savepath)
-        extension = os.path.splitext(imgsrc)[1]
-        filename = "{0}/{1}{2}".format(savepath, name, extension)
-        image.save(filename, 'JPEG', quality=90)
+        filename = "{0}/{1}.{2}".format(savepath, name, extension)
+
+        if imgsrc.rsplit('.', 1)[1].lower() != extension:
+            imagenew = Image.new("RGB", image.size, (255, 255, 255))
+            imagenew.paste(image, image)
+            imagenew.save(filename, 'JPEG', quality=90)
+        else:
+            image.save(filename, 'JPEG', quality=90)
+
         return filename
     except (IOError, Exception) as e:
         raise ResizeProviderError(str(e))

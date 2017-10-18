@@ -1,4 +1,4 @@
-opencv-python
+opencv-python==3.3.0.10
 Flask==0.12.2
 flask-cors==1.8.0
 Pillow==4.3.0

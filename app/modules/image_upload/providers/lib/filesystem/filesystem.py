@@ -9,10 +9,10 @@
     Development Team: Stanislav WEB
 """
 
-from configparser import RawConfigParser, ParsingError, NoOptionError
 import errno
 import os
-
+import shutil
+from configparser import RawConfigParser, ParsingError, NoOptionError
 from .exceptions import FileSystemError
 
 
@@ -106,3 +106,18 @@ class FileSystem(object):
 
         except (ParsingError, NoOptionError) as error:
             raise FileSystemError(error)
+
+    @staticmethod
+    def remove(directory):
+        """
+        Remove directory
+        :param str directory: os directory
+        :raise: FileSystemError
+        :return: None
+        """
+
+        if True is os.path.exists(directory):
+            try:
+                shutil.rmtree(os.path.join(directory))
+            except IOError as error:
+                raise FileSystemError(error.strerror)

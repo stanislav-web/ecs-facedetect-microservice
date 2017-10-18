@@ -18,6 +18,7 @@ if __name__ == "__main__":
     from logging.handlers import RotatingFileHandler
     from flask import Flask, request
     from modules import ImageUploader, ImageUploaderError
+    from modules import FaceDetector, FaceDetectorError
     from middleware import response
 
     config = configparser.ConfigParser()
@@ -29,7 +30,7 @@ if __name__ == "__main__":
 
     try:
         application = Flask(__name__)
-        application.config['MAX_CONTENT_LENGTH'] = int(config['upload']['maxbytes'])
+
 
         @application.route('/')
         def index():
@@ -39,6 +40,7 @@ if __name__ == "__main__":
             """
 
             return response.view(config['static']['directory'], 'index.html')
+
 
         """
         @api {post} /upload/:uid Upload user profile photo
@@ -73,6 +75,8 @@ if __name__ == "__main__":
                 "message": "Invalid request data"
             }
         """
+
+
         @application.route('/upload/<int:uid>', methods=['POST'])
         def upload(uid):
             """
@@ -80,10 +84,14 @@ if __name__ == "__main__":
             :return: str
             """
 
+            iu = ImageUploader()
+
             try:
-                data = ImageUploader().process(uid, request.files)
+                data = iu.process(uid, request.files)
+                FaceDetector().process(data.get('src'))
                 return response.created(data)
-            except ImageUploaderError as e:
+            except (ImageUploaderError, FaceDetectorError) as e:
+                # iu.remove(uid)
                 return response.bad_request(e)
 
 
@@ -96,6 +104,7 @@ if __name__ == "__main__":
             """
 
             return response.not_found(error)
+
 
         application.run(
             host=config['server']['host'],

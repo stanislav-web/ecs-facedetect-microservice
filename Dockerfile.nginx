@@ -2,7 +2,6 @@ FROM openresty/openresty:xenial
 
 MAINTAINER Stanislav WEB "stanisov@gmail.com"
 
-
 RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-jwt
 COPY ./server/nginx.conf /nginx.conf
 COPY ./server/lib/bearer.lua /bearer.lua

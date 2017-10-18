@@ -8,6 +8,7 @@
 
     Development Team: Stanislav WEB
 """
+
 from modules.image_upload.providers.resize_provider import resize
 from .providers import UploadProvider, UploadProviderError
 from .providers import ResizeProviderError
@@ -47,10 +48,11 @@ class ImageUploader(UploadProvider):
             minify = resize(original, wm, hm, dirname, self.config['minify'])
 
             return dict({
-                'uid' : uid,
-                'original': original,
-                'thumbnail': thumbnail,
-                'minify' : minify
+                'uid': uid,
+                'src': thumbnail,
+                'original': self.format_url(uid, original),
+                'thumbnail': self.format_url(uid, thumbnail),
+                'minify': self.format_url(uid, minify),
             })
         except (UploadProviderError, ResizeProviderError) as error:
             raise ImageUploaderError(error)
